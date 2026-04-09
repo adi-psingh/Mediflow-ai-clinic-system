@@ -17,9 +17,11 @@ const medicalRecordSchema = mongoose.Schema({
     type: String
   },
 
-  prescription: {
-    type: String
-  },
+  medicationTable: [{
+    name: String,
+    days: String,
+    frequency: String
+  }],
 
   reportFile: {
     type: String
@@ -27,6 +29,20 @@ const medicalRecordSchema = mongoose.Schema({
 
   notes: {
     type: String
+  },
+
+  age: {
+    type: String
+  },
+
+  symptoms: [{
+    type: String
+  }],
+
+  status: {
+    type: String,
+    enum: ["Pending", "Needs Report", "Approved", "Completed"],
+    default: "Pending"
   }
 
 }, { timestamps: true });

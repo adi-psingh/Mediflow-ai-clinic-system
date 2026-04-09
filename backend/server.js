@@ -35,3 +35,6 @@ app.use("/api/auth", authRoutes);
 const medicalRecordRoutes = require("./routes/medicalRecordRoutes");
 
 app.use("/api/records", medicalRecordRoutes);
+
+const aiRoutes = require("./routes/aiRoutes");
+app.use("/api/ai", aiRoutes);

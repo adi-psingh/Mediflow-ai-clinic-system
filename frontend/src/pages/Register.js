@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./Register.css";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import "./Register.css";
 
 function Register() {
+
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -11,98 +14,85 @@ function Register() {
   const [role, setRole] = useState("patient");
 
   const registerUser = async () => {
-
     try {
-
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
-        {
-          name,
-          email,
-          password,
-          role
-        }
-      );
-
-      console.log(response.data);
+      await axios.post("http://localhost:5000/api/auth/register", {
+        name,
+        email,
+        password,
+        role
+      });
 
       Swal.fire({
         icon: "success",
-        title: "Registration Successful!",
-        text: "Redirecting to login...",
-      }).then(() => {
-          window.location.href = "/";
+        title: "Registered Successfully!",
+        timer: 1500,
+        showConfirmButton: false
       });
-      
+
+      navigate("/login");
+
     } catch (error) {
-
-  if (error.response) {
-
-    Swal.fire({
-      icon: "error",
-      title: "Registration Failed",
-      text: error.response.data.message,
-      confirmButtonColor: "#e74c3c"
-    });
-
-  } else {
-
-    Swal.fire({
-      icon: "warning",
-      title: "Server Not Responding",
-      text: "Backend server is not running or unreachable.",
-      confirmButtonColor: "#f39c12"
-    });
-
-  }
-
-}
-
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed",
+        text: error.response?.data?.message || "Something went wrong"
+      });
+    }
   };
 
   return (
-
     <div className="register-container">
 
-      <div className="register-card">
+      {/* LEFT SIDE */}
+      <div className="register-left">
+        <div className="left-content">
+          <h1>MediFlow</h1>
+          <h2>Your Health, Our Priority</h2>
+        </div>
+      </div>
 
-        <h2>MediFlow Register</h2>
+      {/* RIGHT SIDE */}
+      <div className="register-right">
+        <div className="register-card">
 
-        <input
-          type="text"
-          placeholder="Enter Name"
-          onChange={(e) => setName(e.target.value)}
-        />
+          <h2>MediFlow Register</h2>
 
-        <input
-          type="email"
-          placeholder="Enter Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          <input
+            placeholder="Enter Name"
+            onChange={(e) => setName(e.target.value)}
+          />
 
-        <input
-          type="password"
-          placeholder="Enter Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <input
+            placeholder="Enter Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <select onChange={(e) => setRole(e.target.value)}>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-          <option value="patient">Patient</option>
-          <option value="doctor">Doctor</option>
+          <select onChange={(e) => setRole(e.target.value)}>
+            <option value="patient">Patient</option>
+            <option value="doctor">Doctor</option>
+          </select>
 
-        </select>
+          <button onClick={registerUser} className="register-btn">
+            Register
+          </button>
 
-        <button onClick={registerUser}>
-          Register
-        </button>
+          <p className="login-link">
+            Already have an account?{" "}
+            <span onClick={() => navigate("/login")}>Login</span>
+          </p>
 
+
+        </div>
       </div>
 
     </div>
-
   );
-
 }
 
 export default Register;

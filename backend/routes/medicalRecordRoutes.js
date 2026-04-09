@@ -7,7 +7,11 @@ const {
   uploadMedicalRecord,
   getMyRecords,
   viewReport,
-  downloadReport
+  downloadReport,
+  getPendingRecords,
+  getCompletedRecords,
+  updateRecordStatus,
+  uploadRecordFile
 } = require("../controllers/medicalRecordController");
 
 const { protect, authorizeRoles } = require("../middleware/authMiddleware");
@@ -18,6 +22,18 @@ router.post("/upload", protect, authorizeRoles("doctor"), upload.single("file"),
 
 // Create medical record
 router.post("/", protect, authorizeRoles("doctor"), createRecord);
+
+// Doctor get pending records
+router.get("/pending", protect, authorizeRoles("doctor"), getPendingRecords);
+
+// Doctor get completed records
+router.get("/completed", protect, authorizeRoles("doctor"), getCompletedRecords);
+
+// Doctor update record status 
+router.put("/:id/status", protect, authorizeRoles("doctor"), updateRecordStatus);
+
+// Patient upload blood report file to an existing request
+router.post("/:id/upload", protect, authorizeRoles("patient"), upload.single("file"), uploadRecordFile);
 
 // Patient dashboard records
 router.get("/my-records", protect, authorizeRoles("patient"), getMyRecords);

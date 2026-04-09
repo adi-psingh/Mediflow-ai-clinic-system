@@ -112,3 +112,75 @@ exports.downloadReport = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Get active records (Personal Follow-up & All New Pending)
+exports.getPendingRecords = async (req, res) => {
+  try {
+    const records = await MedicalRecord.find({
+      $or: [
+        { status: { $in: ["Pending", "Needs Report"] } },
+        { status: "Approved", doctor: req.user._id }
+      ]
+    }).populate("patient", "name email");
+
+    res.json(records);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Get completed records for this doctor only
+exports.getCompletedRecords = async (req, res) => {
+  try {
+    const records = await MedicalRecord.find({
+      status: "Completed",
+      doctor: req.user._id
+    }).populate("patient", "name email");
+
+    res.json(records);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Update Record Status (Doctor view)
+exports.updateRecordStatus = async (req, res) => {
+  try {
+    const { status, notes, medicationTable } = req.body;
+    
+    // assign doctor who approved it
+    let updateData = { status };
+    if (notes !== undefined) updateData.notes = notes;
+    if (medicationTable !== undefined) updateData.medicationTable = medicationTable;
+    updateData.doctor = req.user._id;
+
+    const record = await MedicalRecord.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    res.json(record);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Upload file to existing record
+exports.uploadRecordFile = async (req, res) => {
+  try {
+    const record = await MedicalRecord.findByIdAndUpdate(
+      req.params.id,
+      { 
+        reportFile: req.file.location, 
+        status: "Pending" // Go back to pending for doctor review 
+      },
+      { new: true }
+    );
+    res.json(record);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

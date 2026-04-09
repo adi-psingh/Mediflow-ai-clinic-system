@@ -22,6 +22,18 @@ const userSchema = mongoose.Schema({
     type: String,
     enum: ["doctor", "patient", "admin"],
     default: "patient"
+  },
+  hospitalName: {
+    type: String,
+    default: ""
+  },
+  specialty: {
+    type: String,
+    default: ""
+  },
+  photo: {
+    type: String,
+    default: ""
   }
 
 }, { timestamps: true });

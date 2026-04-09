@@ -1,44 +1,105 @@
 .register-container {
+  display: flex;
   height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* LEFT SIDE WITH IMAGE */
+.register-left {
+  flex: 1;
+  background: url("https://images.unsplash.com/photo-1588776814546-1ffcf47267a5")
+    no-repeat center;
+  background-size: cover;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 80px;
+  color: white;
+}
+
+/* Overlay */
+.register-left::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 123, 255, 0.85),
+    rgba(0, 198, 255, 0.7),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.register-left * {
+  position: relative;
+  z-index: 2;
+}
+
+.left-content h1 {
+  font-size: 48px;
+}
+
+.left-content h2 {
+  margin-top: 20px;
+  font-size: 30px;
+}
+
+/* RIGHT SIDE */
+.register-right {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f4f6f9;
+  background: #f5f7fa;
 }
 
+/* CARD */
 .register-card {
   background: white;
   padding: 40px;
-  width: 350px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  width: 380px;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .register-card h2 {
+  text-align: center;
   margin-bottom: 20px;
 }
 
+/* INPUTS */
 .register-card input,
 .register-card select {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
-.register-card button {
+/* BUTTON */
+.register-btn {
   width: 100%;
-  padding: 10px;
-  background: #2ecc71;
-  border: none;
+  padding: 12px;
+  background: linear-gradient(90deg, #28a745, #218838);
   color: white;
+  border: none;
+  border-radius: 8px;
   font-weight: bold;
-  border-radius: 5px;
   cursor: pointer;
 }
 
-.register-card button:hover {
-  background: #27ae60;
+.register-btn:hover {
+  opacity: 0.9;
+}
+
+/* LINK */
+.login-link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.login-link span {
+  color: #007bff;
+  cursor: pointer;
 }

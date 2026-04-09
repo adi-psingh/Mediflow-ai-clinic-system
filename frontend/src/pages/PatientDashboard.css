@@ -1,45 +1,345 @@
-.dashboard-container {
-  padding: 40px;
-  background: #f4f6f9;
-  min-height: 100vh;
+/* Layout defaults */
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  background-color: #f5f7fa;
 }
 
-.dashboard-container h2 {
-  margin-bottom: 30px;
+/* Dashboard Wrapper */
+.patient-dashboard {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #3f4e5a;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  padding: 30px 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #2ecc71;
+}
+
+.sidebar-brand svg {
+  margin-right: 10px;
+}
+
+.sidebar-brand span {
+  color: white;
+}
+
+.sidebar-menu {
+  flex: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  padding: 15px 25px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #bdc3c7;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  position: relative;
+}
+
+.sidebar-menu li svg {
+  margin-right: 15px;
+  font-size: 18px;
+}
+
+.sidebar-menu li:hover, .sidebar-menu li.active {
+  background-color: #34434e;
+  color: white;
+}
+
+.sidebar-menu li.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #2ecc71;
+}
+
+.sidebar-bottom {
+  padding: 20px;
+  margin-top: auto;
+}
+
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  color: white;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.sidebar-profile svg {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 0;
+}
+
+.logout-btn svg {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 40px;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+}
+
+.header {
+  font-size: 22px;
+  font-weight: 600;
   color: #2c3e50;
+  margin-top: 0;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e1e8ed;
 }
 
-.records-container {
+/* Grid Layout */
+.dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: 1.5fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+/* Common Card Styles */
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e1e8ed;
+}
+
+.card-header {
+  padding: 18px 25px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  border-bottom: 1px solid #e1e8ed;
+}
+
+/* Chatbot Section */
+.chatbot-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+}
+
+.chat-history {
+  flex: 1;
+  padding: 25px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
-.record-card {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+.chat-message {
+  max-width: 80%;
+  display: flex;
+  flex-direction: column;
 }
 
-.record-card h3 {
+.chat-message.bot {
+  align-self: flex-start;
+}
+
+.chat-message.user {
+  align-self: flex-end;
+}
+
+.chat-sender {
+  font-size: 13px;
+  color: #7f8c8d;
   margin-bottom: 5px;
-  color: #34495e;
+  font-weight: 600;
 }
 
-.record-card p {
-  margin-bottom: 15px;
+.chat-message.user .chat-sender {
+  display: none;
 }
 
-.record-card a {
-  text-decoration: none;
-  background: #3498db;
+.chat-bubble {
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.chat-message.bot .chat-bubble {
+  background-color: #f1f3f5;
+  color: #2c3e50;
+}
+
+.chat-message.user .chat-bubble {
+  background-color: #3482d6; /* matching the blue button from screenshot */
   color: white;
-  padding: 8px 12px;
-  border-radius: 5px;
-  display: inline-block;
 }
 
-.record-card a:hover {
-  background: #2980b9;
+.chat-input-area {
+  display: flex;
+  padding: 20px;
+  background: white;
+  border-top: 1px solid #e1e8ed;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  gap: 15px;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #dcdde1;
+  border-radius: 6px;
+  outline: none;
+  font-size: 15px;
+}
+
+.chat-input:focus {
+  border-color: #3482d6;
+}
+
+.chat-send-btn {
+  background-color: #3482d6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0 30px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.chat-send-btn:hover {
+  background-color: #2a6bb0;
+}
+
+/* Right Column */
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Medical Reports */
+.reports-section .card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.report-item {
+  border: 1px solid #e1e8ed;
+  border-radius: 6px;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.report-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.report-diagnosis {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.report-date {
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.report-btn {
+  background-color: #3482d6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+.report-btn:hover {
+  background-color: #2a6bb0;
+}
+
+/* Health History */
+.history-section .card-content {
+  padding: 20px 30px;
+}
+
+.history-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.history-list li {
+  margin-bottom: 15px;
+  font-size: 15px;
+  position: relative;
+  padding-left: 15px;
+}
+
+.history-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #7f8c8d;
+  font-size: 18px;
+}
+
+.history-list li:last-child {
+  margin-bottom: 0;
 }
