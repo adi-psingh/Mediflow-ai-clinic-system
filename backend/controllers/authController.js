@@ -83,6 +83,11 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
+// Verify Token (Check if session is still valid)
+exports.verifyToken = async (req, res) => {
+  res.json({ valid: true, user: req.user });
+};
+
 // Change Password
 exports.changePassword = async (req, res) => {
   try {

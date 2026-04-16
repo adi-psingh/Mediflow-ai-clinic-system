@@ -24,7 +24,9 @@ function PatientDashboard() {
   const fetchRecords = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
+      const role = localStorage.getItem("role");
+      
+      if (!token || role !== "patient") {
         navigate("/");
         return;
       }

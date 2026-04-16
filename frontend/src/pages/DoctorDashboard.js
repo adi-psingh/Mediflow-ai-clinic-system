@@ -34,17 +34,21 @@ function DoctorDashboard() {
   const [passwords, setPasswords] = useState({ currentPassword: "", newPassword: "" });
   const [isSaving, setIsSaving] = useState(false);
 
-  // Fetch complete user profile on mount
+  // Fetch complete user profile and verify authentication on mount
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    if (!token || role !== "doctor") {
+      navigate("/login");
+      return;
+    }
+
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/records/pending", { // Just to get the user if needed, but better use a real profile endpoint if exists. 
-             // Actually, I should have a profile endpoint. I'll use the login data if it was stored, 
-             // but I just added updateProfile, so I'll fetch it from there if I had a GET /profile.
-             // For now, I'll use what's in localStorage and update it.
+        const res = await axios.get("http://localhost:5000/api/records/pending", { 
+             headers: { Authorization: `Bearer ${token}` }
         });
-        // We'll update from the login user object if possible
         const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
         setProfileData({
           name: storedUser.name || localStorage.getItem("userName") || "",
@@ -54,10 +58,14 @@ function DoctorDashboard() {
         });
       } catch (err) {
         console.error("Failed to fetch profile", err);
+        if (err.response?.status === 401) {
+          localStorage.clear();
+          navigate("/login");
+        }
       }
     };
     fetchProfile();
-  }, []);
+  }, [navigate]);
 
   const addMedicine = () => {
     if(activeMedicine.name.trim() !== "") {
